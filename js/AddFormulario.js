@@ -3,6 +3,7 @@ $(document).ready(function() {
   $(document).on('click', '#linkAdd', formulario);
 });
 
+//Muda o nome do link do formulario
 function formulario() {
   var text = $(this).text();
   $(".formulario").toggle();
@@ -11,6 +12,7 @@ function formulario() {
   );
 }
 
+//Pega todos os inputs e manda pra tabela
 function enviar() {
   var content = [];
   var inputs = document.getElementsByTagName('input');
@@ -23,6 +25,7 @@ function enviar() {
   tabela = adcionarRow(content, false);
 }
 
+//Adciona os headers da tabela
 function headers() {
   if (!$("#tabela").has("thead tr").length) {
     $("#tabela thead").html(`
@@ -33,6 +36,7 @@ function headers() {
   }
 }
 
+//Adciona os headers da tabela baseado nos inputs
 function ths() {
   var inputs = $('input');
   var texto = "";

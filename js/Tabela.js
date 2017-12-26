@@ -1,6 +1,7 @@
 var tabela;
 var colunas = localStorage.setItem("colunas", 2);
 
+//Adciona novas rows na tabela
 function adcionarRow(array, botarV) {
   tabela = tabelar();
 
@@ -13,6 +14,7 @@ function adcionarRow(array, botarV) {
   return tabela;
 }
 
+//Cria o data Table
 function tabelar() {
   if (!$.fn.dataTable.isDataTable($("#tabela"))) {
     tabela = $('#tabela').DataTable({
@@ -29,6 +31,7 @@ function tabelar() {
   return tabela;
 }
 
+//Reinicia o data table, não utilizado
 function reiniciarTabela() {
   if ($.fn.dataTable.isDataTable($("#tabela"))) {
     tabela.destroy();

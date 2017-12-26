@@ -3,17 +3,19 @@ $(document).ready(function() {
   $(document).on("blur", '#inputEdit', voltarNormal);
 });
 
-function voltarNormal() {
-  var val = $("#inputEdit").val();
-  $("#inputEdit").parent().text(val);
-  $("#inputEdit").remove();
-  $(document).one('dblclick', '#tabela tbody', clicar);
-}
-
+//Adciona o input no local do clique
 function clicar(e) {
   var td = $(e.target);
   var texto = td.text();
   td.html(`<input type="${$.isNumeric(texto) ? "number" : "text"}" id="inputEdit" />`);
   $("#inputEdit").val(texto);
   $(this).off('click');
+}
+
+//Bota o valor do input no td da tabela
+function voltarNormal() {
+  var val = $("#inputEdit").val();
+  $("#inputEdit").parent().text(val);
+  $("#inputEdit").remove();
+  $(document).one('dblclick', '#tabela tbody', clicar);
 }

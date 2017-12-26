@@ -8,6 +8,7 @@ $(document).ready(function() {
   $("#inputFile").change(lerArquivo);
 });
 
+//Pega o arquivo xlsx
 function lerArquivo() {
   var todoXls;
   var gal = {};
@@ -35,6 +36,7 @@ function lerArquivo() {
   reader.readAsArrayBuffer(content);
 }
 
+//
 function pegarDados(res) {
   var arr = [];
 
@@ -46,6 +48,7 @@ function pegarDados(res) {
   tabela = tabelar();
 }
 
+//Bota na tabela
 function adcionarNaTabela(arquivoArray) {
   var header = [];
   for (var i = 0; i < headerColumns; i++)
