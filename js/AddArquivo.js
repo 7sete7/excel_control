@@ -1,3 +1,4 @@
+//Setado no arquivo Tabela.js
 const headerColumns = localStorage.getItem('colunas');
 
 var nomeArquivo;
@@ -22,44 +23,74 @@ function lerArquivo() {
       binary += String.fromCharCode(bytes[i]);
     }
     todoXls = XLSX.read(binary, {
-      type: 'binary',
-      cellDates: true,
-      cellStyles: true
+      type: 'binary'
     });
     todoXls.SheetNames.forEach(function(sheetName) {
       var s = todoXls.Sheets[sheetName];
-      delete(s["!cols"]);
       delete(s["!ref"]);
+      delete(s["!margins"]);
+      delete(s["!merges"]);
       pegarDados(s);
     });
   }
   reader.readAsArrayBuffer(content);
 }
 
-//
+//Separa os headers do corpo pegando a primeira linha (ex: A1, B1, C1)
 function pegarDados(res) {
-  var arr = [];
+  var header = [];
+  var corpo = [];
 
   Object.keys(res).forEach(function(k) {
-    arr.push(res[k]);
-  })
-  nomeArquivo = arr.shift();
-  adcionarNaTabela(arr);
-  tabela = tabelar();
+    if(k.match("^[A-Z]1$"))
+      header.push(res[k]);
+    else
+      corpo.push(res[k]);
+  });
+
+  id = gerarTabela();
+  adcionarNaTabela(header, corpo, id);
 }
 
 //Bota na tabela
-function adcionarNaTabela(arquivoArray) {
-  var header = [];
-  for (var i = 0; i < headerColumns; i++)
-    header.push(arquivoArray.shift());
+function adcionarNaTabela(header, corpo, id) {
+  var planilhas = header.length / headerColumns;
 
-  if (!$("#tabela").has("thead tr").length) {
-    $('#tabela thead').html(`
-        <tr>
-          ${header.map((coisa) => `<th>${coisa.v}</th>`)}
-        </tr>
-      `);
+  for (var i = 1; i <= planilhas; i++){
+
+    if(i == 1){
+      if (!$(id).has("thead tr").length) {
+        $(id + ' thead').html(`
+            <tr>
+              ${ adcionarHeader(header) }
+            </tr>
+          `);
+      }
+      tabela = adcionarRow(corpo, true, id);
+    }
+
   }
-  tabela = adcionarRow(arquivoArray, true);
+}
+
+function adcionarHeader(header) {
+  var texto = "";
+
+  for (var i = 0; i < headerColumns; i++) {
+    texto += `<td>${ header[i].v }</td>`;
+  }
+  return texto;
+}
+
+function gerarTabela(){
+  id = "tabela" + ($("table").length + 1);
+
+  $("#main").append(`
+    <div id="div-${id}">
+      <table id="${id}" class="table table-striped table-hover table-bordered display">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    `);
+    return ("#" + id);
 }

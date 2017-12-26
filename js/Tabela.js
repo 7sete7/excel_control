@@ -2,8 +2,8 @@ var tabela;
 var colunas = localStorage.setItem("colunas", 2);
 
 //Adciona novas rows na tabela
-function adcionarRow(array, botarV) {
-  tabela = tabelar();
+function adcionarRow(array, botarV ,id) {
+  tabela = tabelar(id);
 
   for (var i = 0; i < array.length; i += 2) {
     if (botarV)
@@ -15,17 +15,10 @@ function adcionarRow(array, botarV) {
 }
 
 //Cria o data Table
-function tabelar() {
-  if (!$.fn.dataTable.isDataTable($("#tabela"))) {
-    tabela = $('#tabela').DataTable({
-      dom: 'Bfrtip',
-      buttons : [
-        {
-          extend: 'excel',
-          text: 'Gerar excel',
-          title: null
-        }
-      ]
+function tabelar(id) {
+  if (!$.fn.dataTable.isDataTable($(id))) {
+    tabela = $(id).DataTable({
+      dom: 'frtip'
     });
   }
   return tabela;
