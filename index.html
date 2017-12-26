@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>GM - Controle de estoque</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="favicon.ico">
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/datatables.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/datatables.min.js"></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="js/Tabela.js"></script>
+  <script src="js/AddArquivo.js"></script>
+  <script src="js/AddFormulario.js"></script>
+  <script src="js/Edit.js"></script>
+</head>
+
+<body>
+  <input id="inputFile" type="file" />
+
+  <a id="linkAdd" href="#">Adcionar item</a>
+
+
+  <div class="formulario" style="display: none">
+    <div class="container my-lg-4 p-2 px-3" >
+      <div class="form-control form-row" style="border: none">
+
+        <div class="col-5">
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              <input id="nome" type="text" placeholder="Nome" class="form-control" />
+            </div>
+          </div>
+        </div>
+
+        <!--<div class="col-sm-1"></div>-->
+
+        <div class="col-5">
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+              <input id="email" type="text" placeholder="Email" class="form-control"/>
+              <span class="input-group-addon"><i id="envio" class="fa fa-send"></i></span>
+            </div>
+          </div>
+        </div>
+
+        <!--<div class="w-100"></div>
+
+        <div class="col-5">
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+              <input type="text" class="form-control" placeholder="Senha"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-1">
+          <button id="envio" class="btn float-sm-right">Enviar</button>
+        </div>-->
+
+      </div>
+    </div>
+  </div>
+
+  <table id="tabela" class="table table-striped table-hover table-bordered display">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+</body>
+
+</html>
