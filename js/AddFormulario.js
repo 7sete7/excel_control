@@ -19,13 +19,13 @@ function enviar() {
   var id = '#' + ($(this).parentsUntil('.formulario').parent().next().children('table').attr('id'));
 
   for (var i = 0; i < inputs.length; i++) {
-      content.push(inputs[i].value);
+    content.push(inputs[i].value);
   };
 
   tabela = adcionarRow(content, false, id);
 }
 
-
+// TODO: Adcionar opçao de criar e deletar tabela 
 //Adciona os headers da tabela
 function headers(id, inputs) {
   if (!$(id).has("thead tr").length) {
@@ -42,7 +42,7 @@ function ths(inputs) {
   var texto = "";
 
   for (var i = 0; i < inputs.length; i++) {
-      texto += `<th>${ inputs[i].placeholder }</th>`;
+    texto += `<th>${ inputs[i].placeholder }</th>`;
   }
   return texto;
 }

@@ -25,6 +25,7 @@ function lerArquivo() {
     todoXls = XLSX.read(binary, {
       type: 'binary'
     });
+
     todoXls.SheetNames.forEach(function(sheetName) {
       var s = todoXls.Sheets[sheetName];
       delete(s["!ref"]);
@@ -33,6 +34,7 @@ function lerArquivo() {
       pegarDados(s);
     });
   }
+
   reader.readAsArrayBuffer(content);
 }
 
@@ -85,7 +87,7 @@ function gerarTabela() {
   $("#main").append(`
     <div id="div-${id}">
     <button id="linkAdd" class="btn" style="cursor: pointer">Adcionar item</button>
-      ${ form() }
+      ${ templateFormulario() }
       <table id="${id}" class="table table-striped table-hover table-bordered display">
         <thead></thead>
         <tbody></tbody>
@@ -96,7 +98,7 @@ function gerarTabela() {
   return ("#" + id);
 }
 
-function form(){
+function templateFormulario() {
   return `
   <div class="formulario" style="display: none">
     <div class="container my-lg-4 p-2 px-3" >
