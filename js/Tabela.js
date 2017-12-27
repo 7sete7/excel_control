@@ -1,9 +1,9 @@
-var tabela;
+var dataTabelas = {};
 var colunas = localStorage.setItem("colunas", 2);
 
 //Adciona novas rows na tabela
-function adcionarRow(array, botarV ,id) {
-  tabela = tabelar(id);
+function adcionarRow(array, botarV, id) {
+  var tabela = tabelar(id);
 
   for (var i = 0; i < array.length; i += 2) {
     if (botarV)
@@ -16,18 +16,16 @@ function adcionarRow(array, botarV ,id) {
 
 //Cria o data Table
 function tabelar(id) {
+  var tabela;
   if (!$.fn.dataTable.isDataTable($(id))) {
     tabela = $(id).DataTable({
       dom: 'frtip'
     });
+    dataTabelas[id] = tabela;
   }
-  return tabela;
+  return getTabela(id);
 }
 
-//Reinicia o data table, não utilizado
-function reiniciarTabela() {
-  if ($.fn.dataTable.isDataTable($("#tabela"))) {
-    tabela.destroy();
-    return tabelar();
-  }
+function getTabela(id) {
+  return dataTabelas[id];
 }

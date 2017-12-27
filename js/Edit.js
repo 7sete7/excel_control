@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $(document).one('dblclick', '#tabela tbody', clicar);
+  $(document).one('dblclick', 'tbody', clicar);
   $(document).on("blur", '#inputEdit', voltarNormal);
 });
 
@@ -17,5 +17,5 @@ function voltarNormal() {
   var val = $("#inputEdit").val();
   $("#inputEdit").parent().text(val);
   $("#inputEdit").remove();
-  $(document).one('dblclick', '#tabela tbody', clicar);
+  $(document).one('dblclick', 'tbody ', clicar);
 }

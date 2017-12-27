@@ -6,7 +6,7 @@ $(document).ready(function() {
 //Muda o nome do link do formulario
 function formulario() {
   var text = $(this).text();
-  $(".formulario").toggle();
+  $(this).next('.formulario').toggle();
   $(this).text(
     text == "Adcionar item" ? "Esconder formulário" : "Adcionar item"
   );
@@ -15,35 +15,34 @@ function formulario() {
 //Pega todos os inputs e manda pra tabela
 function enviar() {
   var content = [];
-  var inputs = document.getElementsByTagName('input');
+  var inputs = $(this).parentsUntil('.formulario').find('input');
+  var id = '#' + ($(this).parentsUntil('.formulario').parent().next().children('table').attr('id'));
 
   for (var i = 0; i < inputs.length; i++) {
-    if (inputs[i].type != "file" && inputs[i].type != "search")
       content.push(inputs[i].value);
   };
-  headers();
-  tabela = adcionarRow(content, false);
+
+  tabela = adcionarRow(content, false, id);
 }
 
+
 //Adciona os headers da tabela
-function headers() {
-  if (!$("#tabela").has("thead tr").length) {
-    $("#tabela thead").html(`
+function headers(id, inputs) {
+  if (!$(id).has("thead tr").length) {
+    $(id + "thead").html(`
         <tr>
-          ${ ths() }
+          ${ ths(inputs) }
         </tr>
       `);
   }
 }
 
 //Adciona os headers da tabela baseado nos inputs
-function ths() {
-  var inputs = $('input');
+function ths(inputs) {
   var texto = "";
 
-  for (var input of inputs) {
-    if(input.type != 'search' && input.type != 'file')
-      texto += `<th>${ input.placeholder }</th>`;
+  for (var i = 0; i < inputs.length; i++) {
+      texto += `<th>${ inputs[i].placeholder }</th>`;
   }
   return texto;
 }
