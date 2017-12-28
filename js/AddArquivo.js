@@ -1,7 +1,7 @@
 //Setado no arquivo Tabela.js
 const headerColumns = localStorage.getItem('colunas');
 
-var nomeArquivo;
+var nomePlanilhas = [];
 var reader = new FileReader();
 var tabela;
 
@@ -27,6 +27,7 @@ function lerArquivo() {
     });
 
     todoXls.SheetNames.forEach(function(sheetName) {
+      nomePlanilhas.push(sheetName);
       var s = todoXls.Sheets[sheetName];
       delete(s["!ref"]);
       delete(s["!margins"]);
@@ -127,4 +128,8 @@ function templateFormulario() {
     </div>
   </div>
   `;
+}
+
+function getNomePlanilhas() {
+  return nomePlanilhas;
 }
