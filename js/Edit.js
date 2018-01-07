@@ -9,7 +9,6 @@ function clicar(e) {
   var texto = td.text();
   td.html(`<input type="${$.isNumeric(texto) ? "number" : "text"}" id="inputEdit" />`);
   $("#inputEdit").val(texto);
-  $(this).off('click');
 }
 
 //Bota o valor do input no td da tabela

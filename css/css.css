@@ -1,1 +1,15 @@
+.btn-circle{
+  border-radius: 22px;
+}
 
+.fo{
+  background-color: #32302a;
+  max-width: 300px;
+  max-height: 90px;
+  font-family: Arial, sans-serif;
+  position: absolute;
+  bottom: 0;
+  margin-left: 20px;
+  padding: 17px 45px;
+  border-radius: 15px;
+}

@@ -19,7 +19,8 @@ function tabelar(id) {
   var tabela;
   if (!$.fn.dataTable.isDataTable($(id))) {
     tabela = $(id).DataTable({
-      dom: 'frtip'
+      dom: 'frtip',
+	  colReorder: true
     });
     dataTabelas[id] = tabela;
   }

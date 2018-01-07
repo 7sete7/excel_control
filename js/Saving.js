@@ -23,7 +23,7 @@ function salvar() {
 * Pega os nomes das planilhas da função declarada em AddArquivo.js - linha 133
 * e coloca no array dos nomes
 *
-* Le cada tabela como xlsx e guarda na variavel dados
+* Converte cada tabela em um workbook excel e guarda na variavel dados
 * Pega os dados e coloca no objeto Sheets do arquivo
 *
 * Cria uma variavel blob com o arquivo passando pelo pre-processo - linha 50
@@ -46,7 +46,7 @@ function gerarExcel(tabelas) {
     [preProcesso(XLSX.write(arquivo, {bookType: 'xlsx', type: 'binary'}))],
     { type: "application/octet-stream" }
   );
-  saveAs(blob, 'test.xlsx');
+  saveAs(blob, document.title + '.xlsx');
 }
 
 //Pré-processa o arquivo antes de criar -- Não sei o que faz

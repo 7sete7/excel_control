@@ -51,16 +51,12 @@ function pegarDados(res) {
       corpo.push(res[k]);
   });
 
-  id = gerarTabela();
+  id = gerarTabela(header);
   adcionarNaTabela(header, corpo, id);
 }
 
 //Bota na tabela
 function adcionarNaTabela(header, corpo, id) {
-  var planilhas = header.length / headerColumns;
-
-  for (var i = 1; i <= planilhas; i++) {
-
     if (!$(id).has("thead tr").length) {
       $(id + ' thead').html(`
             <tr>
@@ -69,66 +65,69 @@ function adcionarNaTabela(header, corpo, id) {
           `);
     }
     tabela = adcionarRow(corpo, true, id);
-
-  }
 }
 
 function adcionarHeader(header) {
   var texto = "";
 
-  for (var i = 0; i < headerColumns; i++) {
+  for (var i = 0; i < header.length; i++) {
     texto += `<td>${ header[i].v }</td>`;
   }
   return texto;
 }
 
-function gerarTabela() {
+function gerarTabela(header) {
   id = "tabela" + ($("table").length + 1);
 
   $("#main").append(`
+    <br><br><br>
     <div id="div-${id}">
-    <button id="linkAdd" class="btn" style="cursor: pointer">Adcionar item</button>
-      ${ templateFormulario() }
+      <button id="remove" class="close" title="Remover tabela">&times;</button>
+      <button id="linkAdd" class="btn" style="cursor: pointer">Adcionar item</button>
+      ${ template(header) }
       <table id="${id}" class="table table-striped table-hover table-bordered display">
         <thead></thead>
         <tbody></tbody>
       </table>
     </div>
-    <br><br><br>
     `);
   return ("#" + id);
 }
 
-function templateFormulario() {
+//Bota umas divs pra estilização
+function template(header) {
   return `
   <div class="formulario" style="display: none">
     <div class="container my-lg-4 p-2 px-3" >
       <div class="form-control form-row" style="border: none">
-
-        <div class="mx-5 col-5">
-          <div class="form-group">
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-user"></i></span>
-              <input id="nome" type="text" placeholder="Nome" class="form-control" />
-            </div>
-          </div>
-        </div>
-
-        <div class="col-5">
-          <div class="form-group">
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-              <input id="email" type="text" placeholder="Email" class="form-control"/>
-              <span class="input-group-addon"><i id="envio" class="fa fa-send"></i></span>
-            </div>
-          </div>
-        </div>
-
+        ${ inputs(header) }
       </div>
     </div>
   </div>
   `;
 }
+
+//Adciona os inputs baseado nos headers
+function inputs(header) {
+  var texto = "";
+
+  header.forEach(function(th, i){
+    texto += `
+      <div class="mx-4 col-5">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+            <input id="${ th.v }" type="text" placeholder="${ th.v }" class="form-control" />
+            ${ !(i == header.length - 1) ? "" :
+            `<span class="input-group-addon" id="envio"><i class="fa fa-send"></i></span>`
+            }
+          </div>
+        </div>
+      </div>`
+  });
+  return texto;
+}
+
 
 function getNomePlanilhas() {
   return nomePlanilhas;

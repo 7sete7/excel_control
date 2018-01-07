@@ -22,10 +22,14 @@ function enviar() {
     content.push(inputs[i].value);
   };
 
+  for (value of content) {
+    if(!value.length)
+      return;
+  }
+
   tabela = adcionarRow(content, false, id);
 }
 
-// TODO: Adcionar opçao de criar e deletar tabela 
 //Adciona os headers da tabela
 function headers(id, inputs) {
   if (!$(id).has("thead tr").length) {
