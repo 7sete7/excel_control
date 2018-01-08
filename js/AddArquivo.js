@@ -24,15 +24,15 @@ function lerArquivo() {
       type: 'binary'
     });
 
-    todoXls.SheetNames.forEach(function(sheetName) {
-      nomePlanilhas.push(sheetName);
-      var s = todoXls.Sheets[sheetName];
-      delete(s["!ref"]);
-      delete(s["!margins"]);
-      delete(s["!merges"]);
-      pegarDados(s);
-    });
-	
+    //todoXls.SheetNames.forEach(function(sheetName) {
+    sheetName = "DADOS - PENDANT_KANBAN_PPS";
+    nomePlanilhas.push(sheetName);
+    var s = todoXls.Sheets[sheetName];
+    delete(s["!ref"]);
+    //  delete(s["!margins"]);
+    //  delete(s["!merges"]);
+    pegarDados(s);
+    //});
   }
 
   reader.readAsArrayBuffer(content);
@@ -44,11 +44,10 @@ function pegarDados(res) {
   var corpo = [];
 
   Object.keys(res).forEach(function(k) {
-    if (k.match("^[A-Z]1$"))
+    if (k.match("^[A-Z]16$"))
       header.push(res[k]);
-    else
+    else if(k.match("^[A-Z](1[7-9]|[2-9][0-9])$"))
       corpo.push(res[k].v);
-
   });
 
   id = gerarTabela(header);
