@@ -1,5 +1,3 @@
-//Setado no arquivo Tabela.js
-const headerColumns = localStorage.getItem('colunas');
 
 var nomePlanilhas = [];
 var reader = new FileReader();
@@ -34,6 +32,7 @@ function lerArquivo() {
       delete(s["!merges"]);
       pegarDados(s);
     });
+	
   }
 
   reader.readAsArrayBuffer(content);
@@ -48,7 +47,8 @@ function pegarDados(res) {
     if (k.match("^[A-Z]1$"))
       header.push(res[k]);
     else
-      corpo.push(res[k]);
+      corpo.push(res[k].v);
+
   });
 
   id = gerarTabela(header);
@@ -64,7 +64,7 @@ function adcionarNaTabela(header, corpo, id) {
             </tr>
           `);
     }
-    tabela = adcionarRow(corpo, true, id);
+    tabela = adcionarRow(corpo, id);
 }
 
 function adcionarHeader(header) {
