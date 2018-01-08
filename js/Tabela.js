@@ -1,18 +1,29 @@
 var dataTabelas = {};
-var colunas = localStorage.setItem("colunas", 2);
 
 //Adciona novas rows na tabela
-function adcionarRow(array, botarV, id) {
+function adcionarRow(array, id) {
   var tabela = tabelar(id);
+  let headers = $(id).children('thead').children('tr').children().length;
+  let obj = [];
+  let j = 1;
 
-  for (var i = 0; i < array.length; i += 2) {
-    if (botarV)
-      tabela.row.add([array[i].v, array[i + 1].v]).draw();
-    else
-      tabela.row.add([array[i], array[i + 1]]).draw();
+  for (var i = 0; i < array.length; i ++) {
+	if(!obj.length) {obj.push([array[i]]); continue;}
+	if(obj[obj.length - 1].length == headers){
+		j = 1;
+		obj.push([array[i]]);
+	}
+	else{
+		obj[obj.length - 1].push(array[i]);
+	}
+	j++;
   }
+  tabela.rows.add(obj).draw();
+  
   return tabela;
 }
+
+
 
 //Cria o data Table
 function tabelar(id) {

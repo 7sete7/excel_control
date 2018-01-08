@@ -27,7 +27,10 @@ function enviar() {
       return;
   }
 
-  tabela = adcionarRow(content, false, id);
+  for(inp of inputs)
+	  inp.value = '';
+  
+  tabela = adcionarRow(content, id);
 }
 
 //Adciona os headers da tabela
