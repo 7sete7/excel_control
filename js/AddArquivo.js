@@ -1,5 +1,3 @@
-function alert(msg){ console.log(msg); }
-
 var nomePlanilhas = [];
 var reader = new FileReader();
 var tabela;
@@ -25,15 +23,11 @@ function lerArquivo() {
       type: 'binary'
     });
 
-    //todoXls.SheetNames.forEach(function(sheetName) {
     sheetName = "DADOS - PENDANT_KANBAN_PPS";
     nomePlanilhas.push(sheetName);
     var s = todoXls.Sheets[sheetName];
-    //  delete(s["!ref"]);
-    //  delete(s["!margins"]);
-    //  delete(s["!merges"]);
+
     pegarDados(s);
-    //});
   }
 
   reader.readAsArrayBuffer(content);
@@ -50,17 +44,17 @@ function pegarDados(res) {
       var coord = XLSX.utils.encode_cell({r:R,c:C});
       if(!res[coord])
         res[coord] = "--";
-      console.log(C);
     }
   }
 
   Object.keys(res).forEach(function(k) {
     if (k.match("^(B|C|D|E|K)16$"))
       header.push(res[k]);
-    else if(k.match("^(B|C|D|E|K)(1[7-9]|[2-9][0-9]|[1-9][0-9][0-9])$"))
+    else if(k.match("^(B|C|D|E|K)(1[7-9]|[2-9][0-9]|[1-9][0-9][0-9])$")){
       corpo[k.substring(k.search('[1-9]'))] ?
       corpo[k.substring(k.search('[1-9]'))].push(res[k].v !== undefined ? res[k].v : "--") :
       corpo[k.substring(k.search('[1-9]'))] = [res[k].v !== undefined ? res[k].v : "--"];
+    }
   });
   var id = gerarTabela(header);
   adcionarNaTabela(header, corpo, id);

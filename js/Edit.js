@@ -7,7 +7,7 @@ $(document).ready(function() {
 function clicar(e) {
   var td = $(e.target);
   var texto = td.text();
-  td.html(`<input type="${$.isNumeric(texto) ? "number" : "text"}" id="inputEdit" />`);
+  td.html(`<input type="${$.isNumeric(texto) ? "number" : "text"}" id="inputEdit"/>`);
   $("#inputEdit").val(texto);
 }
 
