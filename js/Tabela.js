@@ -1,6 +1,15 @@
 var dataTabelas = {};
 
-//Adciona novas rows na tabela
+//Adciona rows na tabela usando um objeto
+function adcionarRowObjeto(objeto,id){
+  let tabela = tabelar(id);
+  Object.keys(objeto).forEach(function(k){
+    tabela.row.add(objeto[k]).draw();
+  });
+  return tabela;
+}
+
+//Adciona novas rows na tabela usando a prórpia ordenação do array
 function adcionarRow(array, id) {
   var tabela = tabelar(id);
   let headers = $(id).children('thead').children('tr').children().length;
@@ -8,22 +17,24 @@ function adcionarRow(array, id) {
   let j = 1;
 
   for (var i = 0; i < array.length; i ++) {
-	if(!obj.length) {obj.push([array[i]]); continue;}
-	if(obj[obj.length - 1].length == headers){
-		j = 1;
-		obj.push([array[i]]);
-	}
-	else{
-		obj[obj.length - 1].push(array[i]);
-	}
-	j++;
+  	if(!obj.length) {obj.push([array[i]]); continue;}
+  	if(obj[obj.length - 1].length == headers){
+  		j = 1;
+  		obj.push([
+        array[i] !== undefined ? array[i] : "--"
+      ]);
+  	}
+  	else{
+  		obj[obj.length - 1].push(
+        array[i] !== undefined ? array[i] : "--"
+      );
+  	}
+  	j++;
   }
   tabela.rows.add(obj).draw();
-  
+
   return tabela;
 }
-
-
 
 //Cria o data Table
 function tabelar(id) {
@@ -31,7 +42,7 @@ function tabelar(id) {
   if (!$.fn.dataTable.isDataTable($(id))) {
     tabela = $(id).DataTable({
       dom: 'frtip',
-	  colReorder: true
+	    colReorder: true
     });
     dataTabelas[id] = tabela;
   }
