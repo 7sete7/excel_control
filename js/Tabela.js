@@ -1,7 +1,7 @@
 var dataTabelas = {};
 
 //Adciona rows na tabela usando um objeto
-function adcionarRowObjeto(objeto,id){
+function adcionarRowObjeto(objeto, id){
   let tabela = tabelar(id);
   Object.keys(objeto).forEach(function(k){
     tabela.row.add(objeto[k]).draw();
@@ -45,10 +45,17 @@ function tabelar(id) {
 	    colReorder: true
     });
     dataTabelas[id] = tabela;
+    botao();
   }
-  return getTabela(id);
+  return dataTabelas[id];
 }
 
-function getTabela(id) {
-  return dataTabelas[id];
+function botao(){
+  $('#tabela1_wrapper').prepend(`
+    <button id="remove" class="btn btn-danger" title="Remover linha" style="margin-bottom: 3.5px">Remover</button>
+  `);
+}
+
+function getTabela() {
+  return dataTabelas;
 }

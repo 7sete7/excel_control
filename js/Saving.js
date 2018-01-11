@@ -4,7 +4,7 @@ $(document).ready(function() {
 
 //Pega as tabelas e chama a função gerar excel
 function salvar() {
-  var tabelas = $('table');
+  var tabelas = $('#tabela1');
 
   if (tabelas.length == 0) {
     alert("Sem tabelas");

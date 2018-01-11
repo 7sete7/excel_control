@@ -1,8 +1,10 @@
 var nomePlanilhas = [];
 var reader = new FileReader();
 var tabela;
+var header = [];
 
 $(document).ready(function() {
+  $('#nav-brand').text(document.title);
   $("#inputFile").change(lerArquivo);
 });
 
@@ -35,10 +37,9 @@ function lerArquivo() {
 
 //Separa os headers do corpo pegando a primeira linha (ex: A1, B6, H13)
 function pegarDados(res) {
-  var header = [];
   var corpo = {};
 
-  var range = XLSX.utils.decode_range("B16:K1500");
+  var range = XLSX.utils.decode_range("B16:K25");
   for(var R = range.s.r; R <= range.e.r; ++R) {
     for(var C = range.s.c; C <= range.e.c; ++C) {
       var coord = XLSX.utils.encode_cell({r:R,c:C});
@@ -50,7 +51,8 @@ function pegarDados(res) {
   Object.keys(res).forEach(function(k) {
     if (k.match("^(B|C|D|E|K)16$"))
       header.push(res[k]);
-    else if(k.match("^(B|C|D|E|K)(1[7-9]|[2-9][0-9]|[1-9][0-9][0-9])$")){
+    //else if(k.match("^(B|C|D|E|K)(1[7-9]|[2-9][0-9]|[1-9][0-9][0-9])$")){
+    else if(k.match("^(B|C|D|E|K)(1[7-9]|2[0-5])$")){
       corpo[k.substring(k.search('[1-9]'))] ?
       corpo[k.substring(k.search('[1-9]'))].push(res[k].v !== undefined ? res[k].v : "--") :
       corpo[k.substring(k.search('[1-9]'))] = [res[k].v !== undefined ? res[k].v : "--"];
@@ -82,58 +84,25 @@ function adcionarHeader(header) {
 }
 
 function gerarTabela(header) {
-  id = "tabela" + ($("table").length + 1);
-
+  //id = "tabela" + ($("table").length + 1);
+  id = "tabela1"
   $("#main").append(`
     <br><br><br>
     <div id="div-${id}">
-      <button id="remove" class="close" title="Remover tabela">&times;</button>
-      <button id="linkAdd" class="btn" style="cursor: pointer">Adcionar item</button>
-      ${ template(header) }
       <table id="${id}" class="table table-striped table-hover table-bordered display">
         <thead></thead>
         <tbody></tbody>
       </table>
     </div>
     `);
+  $('#linkAdd').removeClass('disabled');
   return ("#" + id);
 }
 
-//Bota umas divs pra estilização
-function template(header) {
-  return `
-  <div class="formulario" style="display: none">
-    <div class="container my-lg-4 p-2 px-3" >
-      <div class="form-control form-row" style="border: none">
-        ${ inputs(header) }
-      </div>
-    </div>
-  </div>
-  `;
-}
-
-//Adciona os inputs baseado nos headers
-function inputs(header) {
-  var texto = "";
-
-  header.forEach(function(th, i){
-    texto += `
-      <div class="mx-4 col-5">
-        <div class="form-group">
-          <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-            <input id="${ th.v }" type="text" placeholder="${ th.v }" class="form-control" />
-            ${ !(i == header.length - 1) ? "" :
-            `<span class="input-group-addon" id="envio"><i class="fa fa-send"></i></span>`
-            }
-          </div>
-        </div>
-      </div>`
-  });
-  return texto;
-}
-
-
 function getNomePlanilhas() {
   return nomePlanilhas;
+}
+
+function getHeaders(){
+  return header;
 }
