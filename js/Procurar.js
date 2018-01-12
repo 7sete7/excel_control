@@ -4,7 +4,7 @@ $(document).ready(function() {
 });
 
 function abrir(){
-  $('#procurar').fadeToggle();
+  $('#searchModal').modal();
 }
 
 function procurar(e) {

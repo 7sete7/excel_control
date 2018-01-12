@@ -7,20 +7,16 @@ $(document).ready(function() {
 function formulario() {
   if($(this).hasClass('disabled')) return;
 
-  var text = $(this).text();
   $(this).next('.formulario').toggle();
-  $(this).text(
-    text == "Adcionar item" ? "Esconder formulário" : "Adcionar item"
-  );
 
-  $('.modal-body').html( () => template(getHeaders()) );
+  $('#addModal .modal-body').html( () => template(getHeaders()) );
   $('#addModal').modal();
 }
 
 //Pega todos os inputs e manda pra tabela
 function enviar() {
   var content = [];
-  var inputs = $('.modal-body').find('input');
+  var inputs = $('#addModal .modal-body').find('input');
   var id = '#tabela1';
   var desc;
 

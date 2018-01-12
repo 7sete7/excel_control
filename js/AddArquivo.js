@@ -4,7 +4,6 @@ var tabela;
 var header = [];
 
 $(document).ready(function() {
-  $('#nav-brand').text(document.title);
   $("#inputFile").change(lerArquivo);
 });
 

@@ -3,12 +3,12 @@ $(document).ready(function() {
   $(document).on("blur", '#inputEdit', voltarNormal);
   $(document).on('click', 'tr', seleciona);
   $(document).on('click', '#remove', remove);
-  $(document).on('click', '.close', fecha);
+ // $(document).on('click', '.close', fecha);
 });
 
-function fecha(){
+/*function fecha(){
   $(this).parent().fadeOut();
-}
+}*/
 
 //Adciona o input no local do clique
 function clicar(e) {

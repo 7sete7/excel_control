@@ -45,7 +45,7 @@
     </div>
   </nav>
 
-  <div class="container mt-5" id="con">
+  <div class="container rem4" id="con">
     <input id="inputFile" type="file" />
   </div>
 
@@ -55,25 +55,12 @@
     <button class="btn btn-link">Desfazer</button>
   </div>
 
-  <div id="procurar" class="teta" style="display: none">
-    <div class="form-control">
-      <div class="form-group">
-        <div class="input-group">
-          <span class="input-group-addon"><i class='fa fa-search'></i></span>
-          <input id="search" type="text" placeholder="Procurar" class="form-control">
-        </div>
-      </div>
-    </div>
-
-    <div class="container" id="achei">
-      <table class="table table-striped table-hover table-bordered display"></table>
-    </div>
-  </div>
-
   <button class="goToTop btn btn-secondary" id="goTop"><i class="fa fa-arrow-up"></i></button>
 
   <!--                                   MODAL                                       -->
 
+  
+  <!-- Adcionar -->
   <div class="modal fade" id="addModal" aria-hidden="true" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-header">
@@ -88,6 +75,32 @@
          <button id="envio" class="btn btn-primary pointer">Adcionar</button>
       </div>
     </div>
+  </div>
+  
+  <!-- Procurar -->
+   <div class="modal fade" id="searchModal" aria-hidden="true" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-header">
+			<h5 class="modal-title">Procurar</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<div id="procurar" class="teta" >
+			  <div class="form-group">
+				<div class="input-group">
+				  <span class="input-group-addon"><i class='fa fa-search'></i></span>
+				  <input id="search" type="text" placeholder="Procurar" class="form-control">
+				</div>
+			  </div>
+
+				<div class="container" id="achei">
+				  <table class="table table-striped table-hover table-bordered display"></table>
+				</div>
+		    </div>
+	    </div>
+	</div>
   </div>
 
 </body>

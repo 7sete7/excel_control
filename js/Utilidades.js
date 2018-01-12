@@ -1,7 +1,13 @@
 $(document).ready(function() {
+  $('#nav-brand').text(document.title);
   $(document).scroll(oBotao);
   $(document).on('click', '#goTop', subir);
+  $(document).on('click', '.close', fechar);
 });
+
+function fechar(){
+	$(this).parent().fadeOut();
+}
 
 //Display um alerta
 function alerta(msg, type) {
