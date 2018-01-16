@@ -2,29 +2,31 @@ var nomePlanilhas = [];
 var reader = new FileReader();
 var tabela;
 var header = [];
+var load;
 
 $(document).ready(function() {
-  $("#inputFile").change(lerArquivo);
+  $("#inputFile").change(aFuncao);
 });
 
-//Pega o arquivo xlsx
-function lerArquivo() {
+// Chama o loading trevoso
+function aFuncao() {
+  load = abrirLoading('Carregando', 'sm', 'warning', lerArquivo());
+}
+
+//Lê o arquivo e faz os paranaue
+function lerArquivo(){
   var todoXls;
-  var gal = {};
   var content = document.getElementById('inputFile').files[0];
   reader.onload = function(e) {
-
     var binary = "";
     var bytes = new Uint8Array(e.target.result);
     var length = bytes.byteLength;
     for (var i = 0; i < length; i++) {
       binary += String.fromCharCode(bytes[i]);
     }
-    todoXls = XLSX.read(binary, {
-      type: 'binary'
-    });
+    todoXls = XLSX.read(binary, {type: 'binary'});
 
-    sheetName = "DADOS - PENDANT_KANBAN_PPS";
+    let sheetName = "DADOS - PENDANT_KANBAN_PPS";
     nomePlanilhas.push(sheetName);
     var s = todoXls.Sheets[sheetName];
 
@@ -34,7 +36,7 @@ function lerArquivo() {
   reader.readAsArrayBuffer(content);
 }
 
-//Separa os headers do corpo pegando a primeira linha (ex: A1, B6, H13)
+//Separa os headers do corpo pegando as linhas (ex: A1, B6, H13)
 function pegarDados(res) {
   var corpo = {};
 
@@ -63,14 +65,15 @@ function pegarDados(res) {
 
 //Bota na tabela
 function adcionarNaTabela(header, corpo, id) {
-    if (!$(id).has("thead tr").length) {
-      $(id + ' thead').html(`
-            <tr>
-              ${ adcionarHeader(header) }
-            </tr>
-          `);
-    }
-    tabela = adcionarRowObjeto(corpo, id);
+  if (!$(id).has("thead tr").length) {
+    $(id + ' thead').html(`
+          <tr>
+            ${ adcionarHeader(header) }
+          </tr>
+        `);
+  }
+  tabela = adcionarRowObjeto(corpo, id);
+  load.modal('hide');
 }
 
 function adcionarHeader(header) {
@@ -83,7 +86,6 @@ function adcionarHeader(header) {
 }
 
 function gerarTabela(header) {
-  //id = "tabela" + ($("table").length + 1);
   id = "tabela1"
   $("#main").append(`
     <br><br><br>
@@ -94,7 +96,9 @@ function gerarTabela(header) {
       </table>
     </div>
     `);
+
   $('#linkAdd').removeClass('disabled');
+  $('#linkProcurar').removeClass('disabled');
   return ("#" + id);
 }
 

@@ -37,7 +37,7 @@ function enviar() {
   tabela = adcionarRow(content, id);
 
   $('#addModal').modal('hide');
-  alerta(`<strong>${ desc }</strong> adcionado com sucesso!`, 'success');
+  alerta(`<strong>${ desc }</strong> adcionado com sucesso!`, 'success', '#con');
 }
 
 //Adciona os headers da tabela

@@ -2,7 +2,7 @@ var dataTabelas = {};
 
 //Adciona rows na tabela usando um objeto
 function adcionarRowObjeto(objeto, id){
-  let tabela = tabelar(id);
+  let tabela = tabelar();
   Object.keys(objeto).forEach(function(k){
     tabela.row.add(objeto[k]).draw();
   });
@@ -37,8 +37,9 @@ function adcionarRow(array, id) {
 }
 
 //Cria o data Table
-function tabelar(id) {
+function tabelar() {
   var tabela;
+  var id = '#tabela1';
   if (!$.fn.dataTable.isDataTable($(id))) {
     tabela = $(id).DataTable({
       dom: 'frtip',
@@ -57,5 +58,5 @@ function botao(){
 }
 
 function getTabela() {
-  return dataTabelas;
+  return dataTabelas['#tabela1'];
 }
