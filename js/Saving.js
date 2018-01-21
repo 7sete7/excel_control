@@ -5,7 +5,6 @@ $(document).ready(function() {
 //Pega as tabelas e chama a função gerar excel
 function salvar() {
   var tabelas = $('#tabela1');
-
   if (tabelas.length == 0) {
     alert("Sem tabelas");
     return;
@@ -14,38 +13,25 @@ function salvar() {
   gerarExcel(tabelas);
 }
 
-/*
-* Faz todo o processo para gerar o excel
-* Cria o objeto arquivo que possui:
-*      - um array com o nome das planilhas,
-*      - e outro objeto com os dados cuja chave é o nome da planilha
-*
-* Pega os nomes das planilhas da função declarada em AddArquivo.js - linha 133
-* e coloca no array dos nomes
-*
-* Converte cada tabela em um workbook excel e guarda na variavel dados
-* Pega os dados e coloca no objeto Sheets do arquivo
-*
-* Cria uma variavel blob com o arquivo passando pelo pre-processo - linha 50
-*
-* Salva o arquivo usando a biblioteca FileSaver
-*/
+//Gera o arquivo excel
 function gerarExcel(tabelas) {
-  var arquivo = {
+  /*var arquivo = {
     SheetNames: [],
     Sheets: {}
   }
 
   arquivo.SheetNames = getNomePlanilhas();
-  tabelas.each(function(i) {
-    var dados = XLSX.utils.table_to_book($(this)[0]);
-    arquivo.Sheets[arquivo.SheetNames[i]] = dados['Sheets']['Sheet1'];
-  });
+  var dados = XLSX.utils.table_to_book($(this)[0]);
+  arquivo.Sheets[arquivo.SheetNames[0]] = dados['Sheets']['Sheet1'];
 
-  var blob = new Blob(
+  /*var blob = new Blob(
     [preProcesso(XLSX.write(arquivo, {bookType: 'xlsx', type: 'binary'}))],
     { type: "application/octet-stream" }
-  );
+  );*/
+  var wb = editarCelulas();
+  var blob = new Blob(
+  [preProcesso(XLSX.write(wb, {bookType: 'xlsx', type: 'binary'}))],
+  { type: "application/octet-stream" });
   saveAs(blob, document.title + '.xlsx');
 }
 
@@ -55,4 +41,38 @@ function preProcesso(s) {
   var view = new Uint8Array(buf);
   for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
   return buf;
+}
+
+//O corpo tem como key o numero de linhas, para cada editado eu pego o endereço via id da linha
+function editarCelulas() {
+  let corpo = getCorpo();
+  let wb = getXls();
+  let editados = getEditados();
+  let addr;
+  if(editados.length){
+	Object.keys(corpo).forEach(function(k){
+	  for(e of editados){
+		if(e.id == corpo[k][0]){
+		  addr = pegaColuna(e.col) + k;
+		  wb.Sheets["DADOS - PENDANT_KANBAN_PPS"][addr] = e.data;
+		}
+	  }
+	});
+  }
+  return wb;
+}
+
+function pegaColuna(s){
+  switch (s) {
+    case 0:
+      return 'B';
+    case 1:
+      return 'C';
+    case 2:
+      return 'D';
+    case 3:
+      return 'E';
+    case 4:
+      return 'K';
+  }
 }

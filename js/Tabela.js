@@ -1,7 +1,8 @@
 var dataTabelas = {};
+var keys = [];
 
 //Adciona rows na tabela usando um objeto
-function adcionarRowObjeto(objeto, id){
+function adcionarRowObjeto(objeto){
   let tabela = tabelar();
   Object.keys(objeto).forEach(function(k){
     tabela.row.add(objeto[k]).draw();
@@ -31,7 +32,7 @@ function adcionarRow(array, id) {
   	}
   	j++;
   }
-  tabela.rows.add(obj).draw();
+  var node = tabela.rows.add(obj).draw().node();
 
   return tabela;
 }

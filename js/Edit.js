@@ -1,3 +1,5 @@
+var editados = [];
+
 $(document).ready(function() {
   $(document).one('dblclick', 'td', clicar);
   $(document).on("blur", '#inputEdit', voltarNormal);
@@ -21,6 +23,7 @@ function voltarNormal() {
   $(document).one('dblclick', 'td ', clicar);
 }
 
+//Faz as linhas ficarem azul quando clicadas
 function seleciona(){
   if($(this).hasClass('selected'))
     $(this).removeClass('selected');
@@ -30,22 +33,47 @@ function seleciona(){
   }
 }
 
+//Função para pegar o valor da tabela do data tables
 function editarDataTable(val){
-  var row = getTabela().row($("#inputEdit").parent().parent()[0]).data();
+  var row = getTabela().row($("#inputEdit").parent().parent()[0]);
   var coluna = getTabela().column($('#inputEdit').parent()[0]).index();
-  row[coluna] = val;
-  getTabela().row($("#inputEdit").parent().parent()[0]).data(row);
-  alerta(`Item de número ${ row[0] } editado!`, 'info', '#con');
+  row.data()[coluna] = val;
+  getTabela().row($("#inputEdit").parent().parent()[0]).data(row.data());
+  alerta(`Item de número <strong>${ row.data()[0] }</strong> editado!`, 'info', '#con');
+
+  adcionarEditados(row.index(), coluna, val, row.data()[0]);
 }
 
+//Função para pegar o valor da tabela da modal
 function editar(val){
   $("#inputEdit").parent().text(val);
+  $('#search').prop('disabled', true);
+
+  var row = $('#achei table').children('tr:has(#inputEdit)').index();
+  var coluna = $('#achei table tr').children('td:has(#inputEdit)').index();
+  adcionarEditados(row, coluna, val, $('#achei table tr').children()[0].innerText);
 }
 
+//Remove a linha selecionada da tabela
 function remove(){
   if(!getTabela().row('.selected').length) return;
   if(!confirm('Deseja mesmo excluir a linha selecionada?')) return;
 
-  alerta(`Item de número ${ getTabela().row('.selected').data()[0] } deletado!`, 'warning', '#con');
+  alerta(`Item de número <strong>${ getTabela().row('.selected').data()[0] }</strong> deletado!`, 'warning', '#con');
   getTabela().row('.selected').remove().draw(false);
+}
+
+//Adciona no array de linhas editadas
+function adcionarEditados(row, col, data, id){
+  for(v of editados){
+    if(v.row == row && v.col == col){
+      v.data = data;
+      return;
+    }
+  };
+  editados.push({'id': id, 'row': row, 'col': col, 'data': data});
+}
+
+function getEditados(){
+  return editados;
 }

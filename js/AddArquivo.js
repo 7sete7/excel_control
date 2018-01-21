@@ -3,6 +3,8 @@ var reader = new FileReader();
 var tabela;
 var header = [];
 var load;
+var todoXls;
+var corpo = {};
 
 $(document).ready(function() {
   $("#inputFile").change(aFuncao);
@@ -15,7 +17,6 @@ function aFuncao() {
 
 //Lê o arquivo e faz os paranaue
 function lerArquivo(){
-  var todoXls;
   var content = document.getElementById('inputFile').files[0];
   reader.onload = function(e) {
     var binary = "";
@@ -38,8 +39,6 @@ function lerArquivo(){
 
 //Separa os headers do corpo pegando as linhas (ex: A1, B6, H13)
 function pegarDados(res) {
-  var corpo = {};
-
   var range = XLSX.utils.decode_range("B16:K25");
   for(var R = range.s.r; R <= range.e.r; ++R) {
     for(var C = range.s.c; C <= range.e.c; ++C) {
@@ -72,7 +71,7 @@ function adcionarNaTabela(header, corpo, id) {
           </tr>
         `);
   }
-  tabela = adcionarRowObjeto(corpo, id);
+  tabela = adcionarRowObjeto(corpo);
   load.modal('hide');
 }
 
@@ -108,4 +107,12 @@ function getNomePlanilhas() {
 
 function getHeaders(){
   return header;
+}
+
+function getCorpo(){
+  return corpo;
+}
+
+function getXls(){
+  return todoXls;
 }
