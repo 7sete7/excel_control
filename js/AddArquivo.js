@@ -12,7 +12,12 @@ $(document).ready(function() {
 
 // Chama o loading trevoso
 function aFuncao() {
-  load = abrirLoading('Carregando', 'sm', 'warning', lerArquivo());
+  new Promise((resolve, reject) => { resolve(abrirLoading('Carregando', 'sm', 'warning') )})
+  .then(function(l) {
+	load = l; 
+	setTimeout(lerArquivo, 100)
+  })
+  .catch((l) => {console.log("Deu ruim mulesk")});
 }
 
 //Lê o arquivo e faz os paranaue
@@ -48,7 +53,7 @@ function pegarDados(res) {
     }
   }
 
-  Object.keys(res).forEach(function(k) {
+  for(k in res){
     if (k.match("^(B|C|D|E|K)16$"))
       header.push(res[k]);
     //else if(k.match("^(B|C|D|E|K)(1[7-9]|[2-9][0-9]|[1-9][0-9][0-9])$")){
@@ -57,7 +62,7 @@ function pegarDados(res) {
       corpo[k.substring(k.search('[1-9]'))].push(res[k].v !== undefined ? res[k].v : "--") :
       corpo[k.substring(k.search('[1-9]'))] = [res[k].v !== undefined ? res[k].v : "--"];
     }
-  });
+  }
   var id = gerarTabela(header);
   adcionarNaTabela(header, corpo, id);
 }

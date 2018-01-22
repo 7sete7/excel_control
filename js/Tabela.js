@@ -4,9 +4,9 @@ var keys = [];
 //Adciona rows na tabela usando um objeto
 function adcionarRowObjeto(objeto){
   let tabela = tabelar();
-  Object.keys(objeto).forEach(function(k){
+  for(k in objeto){
     tabela.row.add(objeto[k]).draw();
-  });
+  };
   return tabela;
 }
 

@@ -24,7 +24,7 @@ function gerarExcel(tabelas) {
   var dados = XLSX.utils.table_to_book($(this)[0]);
   arquivo.Sheets[arquivo.SheetNames[0]] = dados['Sheets']['Sheet1'];
 
-  /*var blob = new Blob(
+  var blob = new Blob(
     [preProcesso(XLSX.write(arquivo, {bookType: 'xlsx', type: 'binary'}))],
     { type: "application/octet-stream" }
   );*/
@@ -32,7 +32,7 @@ function gerarExcel(tabelas) {
   var blob = new Blob(
   [preProcesso(XLSX.write(wb, {bookType: 'xlsx', type: 'binary'}))],
   { type: "application/octet-stream" });
-  saveAs(blob, document.title + '.xlsx');
+  saveAs(blob, document.title + '.xlsm');
 }
 
 //Pré-processa o arquivo antes de criar -- Não sei o que faz
@@ -50,14 +50,14 @@ function editarCelulas() {
   let editados = getEditados();
   let addr;
   if(editados.length){
-	Object.keys(corpo).forEach(function(k){
+	for(k in corpo){
 	  for(e of editados){
 		if(e.id == corpo[k][0]){
 		  addr = pegaColuna(e.col) + k;
 		  wb.Sheets["DADOS - PENDANT_KANBAN_PPS"][addr] = e.data;
 		}
 	  }
-	});
+	};
   }
   return wb;
 }
