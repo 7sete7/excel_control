@@ -84,3 +84,15 @@ function add_cell_to_sheet(worksheet, address, value) {
 
 	worksheet['!ref'] = XLSX.utils.encode_range(range);
 }
+
+/**
+* @param wb: Object - worksheet/folha.
+* @param linha: int - O número da linha
+* Apaga tudo que está nessa linha
+* @return O worksheet sem a linha apagada
+*/
+function apagarLinha(wb, linha){
+  let entries = Object.entries(wb);
+  wb = entries.filter(v => !v[0].match(`[A-Za-z]+${linha}$`));
+  return wb;
+}

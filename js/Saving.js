@@ -15,19 +15,6 @@ function salvar() {
 
 //Gera o arquivo excel
 function gerarExcel(tabelas) {
-  /*var arquivo = {
-    SheetNames: [],
-    Sheets: {}
-  }
-
-  arquivo.SheetNames = getNomePlanilhas();
-  var dados = XLSX.utils.table_to_book($(this)[0]);
-  arquivo.Sheets[arquivo.SheetNames[0]] = dados['Sheets']['Sheet1'];
-
-  var blob = new Blob(
-    [preProcesso(XLSX.write(arquivo, {bookType: 'xlsx', type: 'binary'}))],
-    { type: "application/octet-stream" }
-  );*/
   var wb = editarCelulas();
   var blob = new Blob(
   [preProcesso(XLSX.write(wb, {bookType: 'xlsx', type: 'binary'}))],
@@ -50,14 +37,17 @@ function editarCelulas() {
   let editados = getEditados();
   let addr;
   if(editados.length){
-	for(k in corpo){
-	  for(e of editados){
-		if(e.id == corpo[k][0]){
-		  addr = pegaColuna(e.col) + k;
-		  wb.Sheets["DADOS - PENDANT_KANBAN_PPS"][addr] = e.data;
-		}
-	  }
-	};
+  	for(k in corpo){
+  	  for(e of editados){
+    		if(e.id == corpo[k][0]){
+          if(e.del) wb = apagarLinha(wb.Sheets["DADOS - PENDANT_KANBAN_PPS"], k);
+    		  else{
+           addr = pegaColuna(e.col) + k;
+  		     wb.Sheets["DADOS - PENDANT_KANBAN_PPS"][addr] = e.data;
+          }
+    		}
+  	  }
+  	}
   }
   return wb;
 }
@@ -74,5 +64,7 @@ function pegaColuna(s){
       return 'E';
     case 4:
       return 'K';
+    default:
+      console.error(`Coluna incorreta: ${s}`);
   }
 }

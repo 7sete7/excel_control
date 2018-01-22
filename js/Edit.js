@@ -41,7 +41,7 @@ function editarDataTable(val){
   getTabela().row($("#inputEdit").parent().parent()[0]).data(row.data());
   alerta(`Item de número <strong>${ row.data()[0] }</strong> editado!`, 'info', '#con');
 
-  adcionarEditados(row.index(), coluna, val, row.data()[0]);
+  adcionarEditados(false, row.index(), coluna, val, row.data()[0]);
 }
 
 //Função para pegar o valor da tabela da modal
@@ -51,7 +51,7 @@ function editar(val){
 
   var row = $('#achei table').children('tr:has(#inputEdit)').index();
   var coluna = $('#achei table tr').children('td:has(#inputEdit)').index();
-  adcionarEditados(row, coluna, val, $('#achei table tr').children()[0].innerText);
+  adcionarEditados(false, row, coluna, val, $('#achei table tr').children()[0].innerText);
 }
 
 //Remove a linha selecionada da tabela
@@ -60,18 +60,21 @@ function remove(){
   if(!confirm('Deseja mesmo excluir a linha selecionada?')) return;
 
   alerta(`Item de número <strong>${ getTabela().row('.selected').data()[0] }</strong> deletado!`, 'warning', '#con');
-  getTabela().row('.selected').remove().draw(false);
+  let row = getTabela().row('.selected');
+  adcionarEditados(true, row.index(), 0, 0, row.data()[0]);
+  row.remove().draw(false);
 }
 
 //Adciona no array de linhas editadas
-function adcionarEditados(row, col, data, id){
+function adcionarEditados(del, row, col, data, id){
   for(v of editados){
     if(v.row == row && v.col == col){
+      v.del = del;
       v.data = data;
       return;
     }
   };
-  editados.push({'id': id, 'row': row, 'col': col, 'data': data});
+  editados.push({'id': id, 'row': row, 'col': col, 'del': del, 'data': data});
 }
 
 function getEditados(){
