@@ -14,8 +14,8 @@ $(document).ready(function() {
 function aFuncao() {
   new Promise((resolve, reject) => { resolve(abrirLoading('Carregando', 'sm', 'warning') )})
   .then(function(l) {
-	load = l; 
-	setTimeout(lerArquivo, 100)
+	load = l;
+	setTimeout(lerArquivo, 300)
   })
   .catch((l) => {console.log("Deu ruim mulesk")});
 }

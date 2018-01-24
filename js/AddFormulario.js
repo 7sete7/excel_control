@@ -19,6 +19,7 @@ function enviar() {
   var inputs = $('#addModal .modal-body').find('input');
   var id = '#tabela1';
   var desc;
+  let idLinha;
 
   for (var i = 0; i < inputs.length; i++) {
     content.push(inputs[i].value);
@@ -31,10 +32,19 @@ function enviar() {
       return;
   }
 
+  for(item in corpo){
+    if(content[0].value == item[0]){
+      if(confirm("ID já existe.\nDeseja substituílo?\nIsso irá apagar a linha!"))
+      { delete item; break; }
+      else return;
+    }
+  }
+
   for(inp of inputs)
 	  inp.value = '';
 
-  tabela = adcionarRow(content, id);
+  let {tabela, node} = adcionarRow(content, id);
+  adcionarLinha(node);
 
   $('#addModal').modal('hide');
   alerta(`<strong>${ desc }</strong> adcionado com sucesso!`, 'success', '#con');

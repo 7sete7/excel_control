@@ -63,6 +63,7 @@ function abrirLoading(msg, tamanho, tipo, callback){
   return loading;
 }
 
+// Adciona células no worksheet
 function add_cell_to_sheet(worksheet, address, value) {
 	var cell = {t:'?', v:value};
 
@@ -86,13 +87,28 @@ function add_cell_to_sheet(worksheet, address, value) {
 }
 
 /**
-* @param wb: Object - worksheet/folha.
+* @param iteravel: Object - Objeto json que contenha endereços estilo worksheet.
 * @param linha: int - O número da linha
 * Apaga tudo que está nessa linha
 * @return O worksheet sem a linha apagada
 */
-function apagarLinha(wb, linha){
-  let entries = Object.entries(wb);
-  wb = entries.filter(v => !v[0].match(`[A-Za-z]+${linha}$`));
-  return wb;
+function apagarLinha(iteravel, linha){
+  let entries = Object.entries(iteravel);
+  iteravel = entries.filter(v => !v[0].match(`[A-Za-z]+${linha}$`));
+  return iteravel;
+}
+
+/**
+* @param node: Object - objeto dataTable correspondente à linha adcionada
+* Adciona uma linha nova ao arquivo de worksheet
+*/
+function adcionarLinha(node){
+  let data = tabelar().row(node).data();
+  let wb = getXls().Sheets["DADOS - PENDANT_KANBAN_PPS"];
+  let lastRow = XLSX.utils.decode_range(wb['!ref']).e.r;
+
+  for(let i = 0; i < data.length; i++){
+    let col = pegaColuna(i);
+    add_cell_to_sheet(wb, `${col}${lastRow + 1}`, data[i]);
+  }
 }

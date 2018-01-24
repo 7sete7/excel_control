@@ -32,9 +32,9 @@ function adcionarRow(array, id) {
   	}
   	j++;
   }
-  var node = tabela.rows.add(obj).draw().node();
+  var node = tabela.rows.add(obj).draw().nodes();
 
-  return tabela;
+  return {tabela, node};
 }
 
 //Cria o data Table
@@ -49,6 +49,7 @@ function tabelar() {
     dataTabelas[id] = tabela;
     botao();
   }
+  getTabela().column(0).nodes().to$().off('click');
   return dataTabelas[id];
 }
 

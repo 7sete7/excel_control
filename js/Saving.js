@@ -39,14 +39,8 @@ function editarCelulas() {
   if(editados.length){
   	for(k in corpo){
   	  for(e of editados){
-    		if(e.id == corpo[k][0]){
-          if(e.del) wb = apagarLinha(wb.Sheets["DADOS - PENDANT_KANBAN_PPS"], k);
-    		  else{
-           addr = pegaColuna(e.col) + k;
-  		     wb.Sheets["DADOS - PENDANT_KANBAN_PPS"][addr] = e.data;
-          }
-    		}
-  	  }
+    		if(e.id == corpo[k][0]) wb = mudaOuApaga(e, wb, k);
+    	}
   	}
   }
   return wb;
@@ -67,4 +61,15 @@ function pegaColuna(s){
     default:
       console.error(`Coluna incorreta: ${s}`);
   }
+}
+
+function mudaOuApaga(e, wb, k){
+  let addr;
+  if(e.del)
+    wb = apagarLinha(wb.Sheets["DADOS - PENDANT_KANBAN_PPS"], k);
+  else{
+    addr = pegaColuna(e.col) + k;
+    wb.Sheets["DADOS - PENDANT_KANBAN_PPS"][addr] = e.data;
+  }
+  return wb;
 }
