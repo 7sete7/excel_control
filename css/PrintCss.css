@@ -1,0 +1,6 @@
+@media print{
+  #table-piso{
+    height: 43%!important;
+    width: 90%!important;
+  }
+}

@@ -11,7 +11,7 @@ var template = template || (function(){
     piso: function(partNumber, embalagem, stpk, desc){
       let data = new Date();
       return `
-        <table style="height: 245px; width: 676px;" class="table-bordered">
+        <table style="height: 245px; width: 676px;" class="table-bordered" id="table-piso">
           <tbody>
             <tr style="height: 4px;">
               <td style="height: 4px; width: 393px;" class="bold text-center">Part number</td>
