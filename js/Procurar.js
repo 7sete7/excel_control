@@ -15,27 +15,12 @@ function procurar(e) {
   if(e.keyCode != 13) return;
 
   let content;
-  let data = [];
-  let rows = [];
 
   $('#achei table').html(' ');
   content = $(this).val();
   if(!content) return;
 
-  var tabela = getTabela();
-  tabela.rows()[0].forEach(function(v){
-    rows.push(tabela.row(v).data());
-  });
-
-  for(linha of rows){
-    for(dado of linha){
-      if(dado === 'undefined') continue;
-      if(dado.toString().toUpperCase().includes(content.toUpperCase())){
-        data.push(linha);
-        break;
-      }
-    }
-  }
+  let data = procurarNaTabela(content, -1, false);
 
   $('#achei table').append(
     data.map(function(a){

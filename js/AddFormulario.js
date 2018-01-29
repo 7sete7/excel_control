@@ -9,7 +9,7 @@ function formulario() {
 
   $(this).next('.formulario').toggle();
 
-  $('#addModal .modal-body').html( () => template(getHeaders()) );
+  $('#addModal .modal-body').html( () => botarDivs(getHeaders()) );
   $('#addModal').modal();
 }
 
@@ -73,7 +73,7 @@ function ths(inputs) {
 
 
 //Bota umas divs pra estilização
-function template(header) {
+function botarDivs(header) {
   return `
   <div class="formulario">
     <div class="container my-lg-4 p-2 px-3" >

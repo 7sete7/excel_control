@@ -87,10 +87,10 @@ function add_cell_to_sheet(worksheet, address, value) {
 }
 
 /**
-* @param iteravel: Object - Objeto json que contenha endereços estilo worksheet.
-* @param linha: int - O número da linha
-* Apaga tudo que está nessa linha
-* @return O worksheet sem a linha apagada
+* @param iteravel: Object - Objeto json que contenha endereços estilo worksheet(A1, B16, H44).
+* @param linha: int - O número da linha.
+* Apaga tudo que está nessa linha.
+* @return O worksheet sem a linha apagada.
 */
 function apagarLinha(iteravel, linha){
   let entries = Object.entries(iteravel);
@@ -99,8 +99,8 @@ function apagarLinha(iteravel, linha){
 }
 
 /**
-* @param node: Object - objeto dataTable correspondente à linha adcionada
-* Adciona uma linha nova ao arquivo de worksheet
+* @param node: Object - objeto dataTable correspondente à linha adcionada.
+* Adciona uma linha nova ao arquivo de worksheet.
 */
 function adcionarLinha(node){
   let data = tabelar().row(node).data();
@@ -111,4 +111,49 @@ function adcionarLinha(node){
     let col = pegaColuna(i);
     add_cell_to_sheet(wb, `${col}${lastRow + 1}`, data[i]);
   }
+}
+
+/**
+* Remove as classes disabled dos itens da nav
+*/
+function removeDisabled() {
+  $('#linkAdd').removeClass('disabled');
+  $('#linkProcurar').removeClass('disabled');
+  $('#linkPrint').removeClass('disabled');
+}
+
+/**
+* @param content: String/Int - Valor que será procurado.
+* @param col: Int - Coluna da tabela que será procurada, -1 para todas.
+* @param isUnico: boolean - Descreve se a linha procurada é única.
+* Procura linhas na tabela que contenham o \content\.
+* @return data: Array - Array de arrays com as linhas que foram encontradas.
+*/
+function procurarNaTabela(content, col, isUnico) {
+  let data = [];
+  let rows = [];
+  let achei;
+  let i = 0;
+  let tabela = getTabela();
+
+  tabela.rows()[0].forEach(function(v){
+    rows.push(tabela.row(v).data());
+  });
+
+  for(linha of rows){
+    i = 0;
+    for(dado of linha){
+      if(dado === 'undefined') continue;
+      if(dado.toString().toUpperCase().includes(content.toString().toUpperCase())){
+        data.push(linha);
+        achei = true;
+        break;
+      }
+      if(i == col) break;
+      i++;
+    }
+    if(achei && isUnico) break;
+  }
+
+  return data;
 }

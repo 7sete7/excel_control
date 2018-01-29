@@ -101,8 +101,7 @@ function gerarTabela(header) {
     </div>
     `);
 
-  $('#linkAdd').removeClass('disabled');
-  $('#linkProcurar').removeClass('disabled');
+  removeDisabled();
   return ("#" + id);
 }
 
