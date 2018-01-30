@@ -80,3 +80,7 @@ function adcionarEditados(del, row, col, data, id){
 function getEditados(){
   return editados;
 }
+
+function limparEditados(){
+	editados = [];
+}

@@ -17,7 +17,7 @@ function gerarNegocio(e) {
   let content = $(this).val();
   if(!content.length) return;
 
-  let data = procurarNaTabela(content, 0, true)[0];
+  let [data,] = procurarNaTabela(content, 0, true);
   if(!data) return;
   gerarTemplatesImpressao(data);
 }
@@ -31,10 +31,10 @@ function criarIframe() {
 
   iframe.contents().find('body').html(' ');
   iframe.contents().find('head')
-    .html(`<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"><link rel="stylesheet" type="text/css" href="css/css.css" /><link rel="stylesheet" type="text/css" href="css/PrintCss.css"/>`);
+    .html(`<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"><link rel="stylesheet" type="text/css" href="css/PrintCss.css"/>`);
 
   for(c of selecionados){
-    let [tabela,] = $(c).parent().parent().children('table');
+    let [tabela,] = $(c).parent().parent().parent().children('table');
     iframe.contents().find('body').append($(tabela).clone());
   }
 
@@ -51,35 +51,53 @@ function imprimir() {
 function gerarTemplatesImpressao(data) {
   $('#containerPrint').html('');
   $('#containerPrint').append(`
-    <div id="printAramado">
-      <label class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input">
-        <span class="custom-control-indicator"></span>
-        <span class="custom-control-description">Aramado</span>
-      </label>
-      ${template.aramado()}
+    <div id="printAramado" class="mt-3">
+      <div class="nav nav-tabs">
+        <div class="nav-item">
+          <div class="nav-link active">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Aramado</span>
+            </label>
+          </div>
+          ${template.aramado(data[1], data[4], data[3], data[2])}
+        </div>
+      </div>
     </div>
   `);
 
   $('#containerPrint').append(`
-    <div id="printPendant">
-      <label class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input">
-        <span class="custom-control-indicator"></span>
-        <span class="custom-control-description">Pendant</span>
-      </label>
-      ${template.pendant()}
+    <div id="printPendant" class="mt-3">
+      <div class="nav nav-tabs">
+        <div class="nav-item">
+          <div class="nav-link active">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Pendant</span>
+            </label>
+          </div>
+          ${template.pendant(data[1], data[2])}
+        </div>
+      </div>
     </div>
   `);
 
   $('#containerPrint').append(`
-    <div id="printPiso">
-      <label class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" checked>
-        <span class="custom-control-indicator"></span>
-        <span class="custom-control-description">Piso</span>
-      </label>
-      ${template.piso(data[1], 0, data[3], data[2])}
+    <div id="printPiso" class="mt-3">
+      <div class="nav nav-tabs">
+        <div class="nav-item">
+          <div class="nav-link active">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" checked>
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Piso</span>
+            </label>
+          </div>
+          ${template.piso(data[1], data[4], data[3], data[2])}
+        </div>
+      </div>
     </div>
   `);
 

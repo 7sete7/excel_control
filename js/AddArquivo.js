@@ -15,7 +15,7 @@ function aFuncao() {
   new Promise((resolve, reject) => { resolve(abrirLoading('Carregando', 'sm', 'warning') )})
   .then(function(l) {
 	load = l;
-	setTimeout(lerArquivo, 300)
+	setTimeout(lerArquivo, 300);
   })
   .catch((l) => {console.log("Deu ruim mulesk")});
 }
@@ -54,10 +54,10 @@ function pegarDados(res) {
   }
 
   for(k in res){
-    if (k.match("^(B|C|D|E|K)16$"))
+    if (k.match("^(B|C|D|E|J|K)16$"))
       header.push(res[k]);
-    //else if(k.match("^(B|C|D|E|K)(1[7-9]|[2-9][0-9]|[1-9][0-9][0-9])$")){
-    else if(k.match("^(B|C|D|E|K)(1[7-9]|2[0-5])$")){
+    //else if(k.match("^(B|C|D|E|J|K)(1[7-9]|[2-9][0-9]|[1-9][0-9][0-9])$")){
+    else if(k.match("^(B|C|D|E|J|K)(1[7-9]|2[0-5])$")){
       corpo[k.substring(k.search('[1-9]'))] ?
       corpo[k.substring(k.search('[1-9]'))].push(res[k].v !== undefined ? res[k].v : "--") :
       corpo[k.substring(k.search('[1-9]'))] = [res[k].v !== undefined ? res[k].v : "--"];
@@ -90,7 +90,7 @@ function adcionarHeader(header) {
 }
 
 function gerarTabela(header) {
-  id = "tabela1"
+  id = "tabela1";
   $("#main").append(`
     <br><br><br>
     <div id="div-${id}">

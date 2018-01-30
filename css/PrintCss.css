@@ -3,4 +3,26 @@
     height: 43%!important;
     width: 90%!important;
   }
+
+  #table-aramado{
+  }
+
+  #table-pendant{
+  }
+
+  table{
+    margin-bottom: 4rem!important;
+  }
+
+  pre, span{
+    border: none;
+  }
+
+  .verticalText{
+    writing-mode: vertical-rl;
+  }
+
+  .bold{
+    font-weight: bold;
+  }
 }

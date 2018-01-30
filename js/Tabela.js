@@ -10,17 +10,22 @@ function adcionarRowObjeto(objeto){
   return tabela;
 }
 
-//Adciona novas rows na tabela usando a prórpia ordenação do array
+/**
+* @param array: Array - O array com dados a ser adcionado.
+* @param id: String - O id da tabela que vai ser adcionado.
+* Adciona novas rows na tabela usando a prórpia ordenação do array.
+* Gera array de arrays.
+* @return tabela: Objeto dataTable - A instância datatable da tabela.
+* @return node: Node html - O node html da linha adcionada.
+*/
 function adcionarRow(array, id) {
   var tabela = tabelar(id);
   let headers = $(id).children('thead').children('tr').children().length;
   let obj = [];
-  let j = 1;
 
   for (var i = 0; i < array.length; i ++) {
   	if(!obj.length) {obj.push([array[i]]); continue;}
   	if(obj[obj.length - 1].length == headers){
-  		j = 1;
   		obj.push([
         array[i] !== undefined ? array[i] : "--"
       ]);
@@ -30,7 +35,6 @@ function adcionarRow(array, id) {
         array[i] !== undefined ? array[i] : "--"
       );
   	}
-  	j++;
   }
   var node = tabela.rows.add(obj).draw().nodes();
 
@@ -43,8 +47,7 @@ function tabelar() {
   var id = '#tabela1';
   if (!$.fn.dataTable.isDataTable($(id))) {
     tabela = $(id).DataTable({
-      dom: 'frtip',
-	    colReorder: true
+      dom: 'frtip'
     });
     dataTabelas[id] = tabela;
     botao();

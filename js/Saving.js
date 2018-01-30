@@ -43,6 +43,8 @@ function editarCelulas() {
     	}
   	}
   }
+  limparEditados();
+
   return wb;
 }
 
@@ -57,6 +59,8 @@ function pegaColuna(s){
     case 3:
       return 'E';
     case 4:
+      return 'J';
+    case 5:
       return 'K';
     default:
       console.error(`Coluna incorreta: ${s}`);

@@ -157,3 +157,10 @@ function procurarNaTabela(content, col, isUnico) {
 
   return data;
 }
+
+//Retorna a data e horário atual: 31/01/2018  14:32
+// TODO: Criar função para não deixar hora/minuto que começa com 0, sem 0. Ex: 0:20
+function dataAtual(){
+  let data = new Date();
+  return data.toLocaleDateString() +'  '+ data.getHours() + ':' + data.getMinutes();
+}
