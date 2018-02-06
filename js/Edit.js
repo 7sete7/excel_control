@@ -9,10 +9,11 @@ $(document).ready(function() {
 
 //Adciona o input no local do clique
 function clicar(e) {
+  if(!checaPorModal() || !checaPorTd(e)) {$(document).one('dblclick', 'td', clicar);return;}
   var td = $(e.target);
   var texto = td.text();
   td.html(`<input type="${$.isNumeric(texto) ? "number" : "text"}" id="inputEdit"/>`);
-  $("#inputEdit").val(texto);
+  $("#inputEdit").val(texto).focus();
 }
 
 //Bota o valor do input no td da tabela
@@ -20,7 +21,7 @@ function voltarNormal() {
   var val = $("#inputEdit").val();
   $('#searchModal').hasClass('in') ? editar(val) :editarDataTable(val);
   $("#inputEdit").remove();
-  $(document).one('dblclick', 'td ', clicar);
+  $(document).one('dblclick', 'td', clicar);
 }
 
 //Faz as linhas ficarem azul quando clicadas
@@ -75,6 +76,20 @@ function adcionarEditados(del, row, col, data, id){
     }
   };
   editados.push({'id': id, 'row': row, 'col': col, 'del': del, 'data': data});
+}
+
+//Retorna falso se houver qualquer modal aberta, com exceção da procurar.
+function checaPorModal(){
+  if($('body').hasClass('modal-open') && !$('#searchModal').hasClass('in'))
+    return false;
+  return true;
+}
+
+//Retorna falso se o td clicado é da 1º coluna.
+function checaPorTd(e) {
+  if($(e.target).parent().children()[0] == e.target)
+    return false;
+  return true;
 }
 
 function getEditados(){

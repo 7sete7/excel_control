@@ -1,60 +1,62 @@
-.fo{
-  background-color: #32302a;
-  max-width: 300px;
-  max-height: 90px;
-  font-family: Arial, sans-serif;
-  position: absolute;
-  bottom: 0;
-  margin-left: 20px;
-  padding: 17px 45px;
-  border-radius: 15px;
-}
+@media screen{
+  .procurar{
+    min-height: 400px;
+  }
 
-.procurar{
-  min-height: 400px;
-}
+  .disabled{
+    cursor: not-allowed!important;
+  }
 
-.disabled{
-  cursor: not-allowed!important;
-}
+  .pointer{
+    cursor: pointer;
+  }
 
-.pointer{
-  cursor: pointer;
-}
+  .goToTop{
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+  }
 
-.goToTop{
-  display: none;
-  position: fixed;
-  bottom: 20px;
-  right: 30px;
-  z-index: 99;
-}
+  .rem4{
+  	margin-top: 4rem!important;
+  }
 
-.rem4{
-	margin-top: 4rem!important;
-}
+  .verticalText{
+    writing-mode: vertical-rl;
+  }
 
-.verticalText{
-  writing-mode: vertical-rl;
-}
+  .bold{
+    font-weight: bold;
+  }
 
-.bold{
-  font-weight: bold;
-}
+  .meuSmal{
+    font-weight: normal;
+    font-size: 8pt;
+    position: absolute;
+    margin-top: -10px;
+    left: 38px;
+  }
+  
+  .bg-primary-custom{
+	  background-color: rgba(0, 138, 255, 0.64);
+  }
 
-/*											*/
+  /*											*/
 
-.fade.in {
-  opacity: 1;
-}
-.modal.in .modal-dialog {
-  -webkit-transform: translate(0, 0);
-  -o-transform: translate(0, 0);
-  transform: translate(0, 0);
-  background-color: #FFF;
-  border-radius: 12px;
-}
+  .fade.in {
+    opacity: 1;
+  }
+  .modal.in .modal-dialog {
+    -webkit-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    transform: translate(0, 0);
+    background-color: #FFF;
+    border-radius: 12px;
+  }
 
-.modal-backdrop.in {
-  opacity: 0.5;
+  .modal-backdrop.in {
+    opacity: 0.5;
+  }
 }

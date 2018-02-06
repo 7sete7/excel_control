@@ -55,10 +55,7 @@
   </div>
 
   <div class="container my-0 my-lg-5" id="main"></div>
-
-  <div id="undo" class="fo text-center" style="display: none">
-    <button class="btn btn-link">Desfazer</button>
-  </div>
+  <iframe style="display:none" name="printFrame" id="printFrame"></iframe>
 
   <button class="goToTop btn btn-secondary" id="goTop"><i class="fa fa-arrow-up"></i></button>
 
@@ -126,12 +123,15 @@
           <div class="input-group">
             <span class="input-group-addon"><i class='fa fa-asterisk'></i></span>
             <input id="searchPrint" type="number" placeholder="Número mágico" class="form-control">
+			<span class="input-group-addon bg-primary-custom pointer" id="searchPrintButton">
+				<i class="fa fa-arrow-right"></i>
+			</span>
           </div>
         </div>
         <div class="container" id="containerPrint"></div>
       </div>
       <div class="modal-footer">
-        <button id="imprimir" class="btn btn-success pointer">Imprimir</button>
+        <button id="imprimir" class="btn btn-success pointer disabled">Imprimir</button>
       </div>
     </div>
   </div>

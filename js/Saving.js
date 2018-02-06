@@ -16,6 +16,11 @@ function salvar() {
 //Gera o arquivo excel
 function gerarExcel(tabelas) {
   var wb = editarCelulas();
+  let sheetName = getNomePlanilhas();
+  let arquivo = {
+    SheetNames: sheetName,
+    Sheets: { sheetName: wb }
+  }
   var blob = new Blob(
   [preProcesso(XLSX.write(wb, {bookType: 'xlsx', type: 'binary'}))],
   { type: "application/octet-stream" });

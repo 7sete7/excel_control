@@ -120,6 +120,7 @@ function removeDisabled() {
   $('#linkAdd').removeClass('disabled');
   $('#linkProcurar').removeClass('disabled');
   $('#linkPrint').removeClass('disabled');
+  $("#inputFile").hide();
 }
 
 /**

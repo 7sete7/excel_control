@@ -1,6 +1,6 @@
 var template = template || (function(){
   return {
-    aramado: function(partNumber, embalagem, stpk, desc){
+    aramado: function(partNumber, embalagem, stpk, desc, min = 1, max = 2){
       return `
       <table style="width: 570px; height: 136px;" class="table-bordered" id="table-aramado">
         <tbody>
@@ -18,8 +18,12 @@ var template = template || (function(){
           </tr>
           <tr style="height: 53px;">
             <td style="width:157px;height:53px;font-size:23pt" class="bold text-center">${partNumber}</td>
-            <td style="width:93px;height:53px;font-size:18pt" class="bold text-center">1</td>
-            <td style="width:95px; height:53px;font-size:18pt" class="bold text-center">2</td>
+            <td style="width:93px;height:53px;font-size:18pt" class="bold text-center">
+              <span id='min' class="bold text-center">${min}</span>
+            </td>
+            <td style="width:95px; height:53px;font-size:18pt" class="bold text-center">
+              <span id='max' class="bold text-center">${max}</span>
+            </td>
           </tr>
           <tr style="height: 24px;">
             <td style="width: 157px; height: 24px;" class="bold text-center">Descrição</td>
@@ -36,22 +40,28 @@ var template = template || (function(){
       `;
     },
 
-    pendant: function(partNumber, desc){
+    pendant: function(partNumber, desc, qtdAcionamento = 10){
       return `
       <table style="width: 298px; height: 107px;" class="table-bordered" id="table-pendant">
         <tbody>
           <tr style="height: 40px;">
-            <td style="width: 166px; height: 40px;" class="bold text-center">${partNumber}</td>
+            <td style="width: 166px; height: 40px;" class="bold text-center">
+              <smal class="meuSmal">Part number</smal>
+              ${partNumber}
+            </td>
             <td style="width: 131px; height: 40px;" class="bold">Qtd para acionamento</td>
           </tr>
           <tr style="height: 40px;">
-            <td style="width: 166px; height: 40px;" class="bold text-center">${desc}</td>
-            <td style="width: 131px; height: 78px;" rowspan="2" class="bg-dark">
-              <span id="qtdAcionamento" style="color:#fff" class="bold"></span>
+            <td style="width: 166px; height: 45px;" class="bold text-center">
+              <smal class="meuSmal">Descrição</smal>
+              ${desc}
+            </td>
+            <td style="width: 131px; height: 78px;" rowspan="2" class="bg-dark bold text-center">
+              <span id="qtdAcionamento" style="color:#fff" class="bold text-center">${qtdAcionamento}${qtdAcionamento > 1 ? ' peças' : ' peça'}</span>
             </td>
           </tr>
           <tr style="height: 38px;">
-            <td style="width:166px;height:38px;font-size:" class="text-center">
+            <td style="width:166px;height:33px;font-size:" class="text-center">
               <pre style="font-family:inherit">${dataAtual()}</pre>
             </td>
           </tr>
