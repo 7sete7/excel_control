@@ -23,6 +23,7 @@ function aFuncao() {
 //Lê o arquivo e faz os paranaue
 function lerArquivo(){
   var content = document.getElementById('inputFile').files[0];
+  let worker = setWorker();
   reader.onload = function(e) {
     var binary = "";
     var bytes = new Uint8Array(e.target.result);
@@ -30,16 +31,28 @@ function lerArquivo(){
     for (var i = 0; i < length; i++) {
       binary += String.fromCharCode(bytes[i]);
     }
-    todoXls = XLSX.read(binary, {type: 'binary'});
-
-    let sheetName = "DADOS - PENDANT_KANBAN_PPS";
-    nomePlanilhas.push(sheetName);
-    var s = todoXls.Sheets[sheetName];
-
-    pegarDados(s);
+    worker.postMessage({
+      'binary': binary,
+      'url': document.location.toString().substring(0, document.location.toString().lastIndexOf('/'))
+    });
   }
 
   reader.readAsArrayBuffer(content);
+}
+
+// Seta os handlers pro worker
+function setWorker() {
+  let blob = new Blob(['('+ worker_function.toString() +')()'], {type: 'text/javascript'});
+  let worker = new Worker(window.URL.createObjectURL(blob));
+
+  worker.onmessage = function(e){
+    let sheetName = "DADOS - PENDANT_KANBAN_PPS";
+    nomePlanilhas.push(sheetName);
+    var s = e.data.Sheets[sheetName];
+    pegarDados(s);
+  }
+
+  return worker;
 }
 
 //Separa os headers do corpo pegando as linhas (ex: A1, B6, H13)
