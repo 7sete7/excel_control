@@ -24,6 +24,7 @@ function aFuncao() {
 function lerArquivo(){
   var content = document.getElementById('inputFile').files[0];
   let worker = setWorker();
+
   reader.onload = function(e) {
     var binary = "";
     var bytes = new Uint8Array(e.target.result);

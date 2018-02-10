@@ -160,8 +160,20 @@ function procurarNaTabela(content, col, isUnico) {
 }
 
 //Retorna a data e horário atual: 31/01/2018  14:32
-// TODO: Criar função para não deixar hora/minuto que começa com 0, sem 0. Ex: 0:20
 function dataAtual(){
   let data = new Date();
-  return data.toLocaleDateString() +'  '+ data.getHours() + ':' + data.getMinutes();
+  return data.toLocaleDateString() +'  '+ formataHoras(data.getHours(), data.getMinutes());
+}
+
+// Formata as horas e minutos botando 0 na frente
+function formataHoras(hora, minuto){
+  if(hora.toString().length == 1){
+    hora = '0' + hora.toString();
+  }
+
+  if(minuto.toString().length == 1){
+    minuto = '0' + minuto.toString();
+  }
+
+  return hora + ':' + minuto;
 }
