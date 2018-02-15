@@ -49,8 +49,8 @@ function setWorker() {
   worker.onmessage = function(e){
     let sheetName = "DADOS - PENDANT_KANBAN_PPS";
     nomePlanilhas.push(sheetName);
-    var s = e.data.Sheets[sheetName];
-    pegarDados(s);
+    todoXls = e.data.Sheets[sheetName];
+    pegarDados(todoXls);
   }
 
   return worker;
