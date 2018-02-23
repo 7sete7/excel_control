@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
-  <title>Repolho</title>
+  <title>GM</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="favicon.ico">
@@ -12,32 +12,131 @@
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="css/css.css" />
 
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="js/datatables.min.js"></script>
-  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-  <script src="js/FileSaver.min.js"></script>
+  <script src="js/Terceiros/jquery-3.2.1.min.js"></script>
+  <script src="js/Terceiros/bootstrap.min.js"></script>
+  <script src="js/Terceiros/datatables.min.js"></script>
+  <script src="js/Terceiros/xlsx.full.min.js"></script>
+  <script src="js/Terceiros/FileSaver.min.js"></script>
+
+  <script src="js/Utilidades.js"></script>
   <script src="js/Tabela.js"></script>
+  <script src="js/Worker.js"></script>
   <script src="js/AddArquivo.js"></script>
   <script src="js/AddFormulario.js"></script>
   <script src="js/Edit.js"></script>
+  <script src="js/Procurar.js"></script>
   <script src="js/Saving.js"></script>
-  <script src="js/TabelaManual.js"></script>
+  <script src="js/Imprimir.js"></script>
+  <script src="js/Templates.js"></script>
 </head>
 
 <body>
-  <div class="container mt-5">
-    <input id="inputFile" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-    <button id="salvar" class="btn btn-sm btn-outline-dark float-right">Gerar excel</button>
+
+  <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#" id="nav-brand"></a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link disabled pointer" id="linkProcurar">Procurar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled pointer" id="linkAdd">Adcionar item</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled pointer" id="linkPrint">Imprimir</a>
+        </li>
+      </ul>
+
+      <button id="salvar" class="btn btn-sm btn-outline-primary float-right">Gerar excel</button>
+    </div>
+  </nav>
+
+  <div class="container rem4" id="con">
+    <input id="inputFile" type="file" />
   </div>
 
-  <div class="container my-5" id="main">
-    <button id="addTabela" class="btn btn-light btn-circle" style="cursor: pointer"><i class="fa fa-plus"></i></button>
+  <div class="container my-0 my-lg-5" id="main"></div>
+  <iframe style="display:none" name="printFrame" id="printFrame"></iframe>
+
+  <button class="goToTop btn btn-secondary" id="goTop"><i class="fa fa-arrow-up"></i></button>
+
+  <!--                                   MODAL                                       -->
+
+
+  <!-- Adcionar -->
+  <div class="modal fade" id="addModal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-header">
+        <h5 class="modal-title">Adcionar item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-secondary pointer" data-dismiss="modal">Fechar</button>
+         <button id="envio" class="btn btn-primary pointer">Adcionar</button>
+      </div>
+    </div>
   </div>
 
-  <div id="undo" class="fo text-center" style="display: none">
-    <button class="btn btn-link">Desfazer</button>
+  <!-- Procurar -->
+   <div class="modal fade" id="searchModal" aria-hidden="true" role="dialog">
+  	<div class="modal-dialog modal-lg" role="document">
+  		<div class="modal-header">
+  			<h5 class="modal-title">Procurar</h5>
+  			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  				<span aria-hidden="true">&times;</span>
+  			</button>
+  		</div>
+  		<div class="modal-body">
+  			<div id="procurar" class="procurar" >
+  			  <div class="form-group">
+    				<div class="input-group">
+    				  <span class="input-group-addon"><i class='fa fa-search'></i></span>
+    				  <input id="search" type="text" placeholder="Procurar" class="form-control">
+    				</div>
+  			  </div>
+
+  				<div class="container" id="achei">
+  				  <table class="table table-striped table-hover table-bordered display"></table>
+  				</div>
+		    </div>
+  	  </div>
+      <div class="modal-footer">
+       <button id="cancel" class="btn btn-danger pointer">Descartar</button>
+       <button id="salvarSearch" class="btn btn-success pointer">Salvar</button>
+      </div>
+  	</div>
   </div>
-  
+
+  <!-- Imprimir -->
+  <div class="modal fade" id="printModal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-header">
+        <h5 class="modal-title">Imprimir</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  				<span aria-hidden="true">&times;</span>
+  			</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class='fa fa-asterisk'></i></span>
+            <input id="searchPrint" type="number" placeholder="Número mágico" class="form-control">
+			<span class="input-group-addon bg-primary-custom pointer" id="searchPrintButton">
+				<i class="fa fa-arrow-right"></i>
+			</span>
+          </div>
+        </div>
+        <div class="container" id="containerPrint"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="imprimir" class="btn btn-success pointer disabled">Imprimir</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 
 </html>

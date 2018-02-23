@@ -1,11 +1,12 @@
+let loading;
+
 $(document).ready(function() {
   $('#salvar').on('click', salvar);
 });
 
 //Pega as tabelas e chama a função gerar excel
 function salvar() {
-  var tabelas = $('table');
-
+  var tabelas = $('#tabela1');
   if (tabelas.length == 0) {
     alert("Sem tabelas");
     return;
@@ -14,39 +15,40 @@ function salvar() {
   gerarExcel(tabelas);
 }
 
-/*
-* Faz todo o processo para gerar o excel
-* Cria o objeto arquivo que possui:
-*      - um array com o nome das planilhas,
-*      - e outro objeto com os dados cuja chave é o nome da planilha
-*
-* Pega os nomes das planilhas da função declarada em AddArquivo.js - linha 133
-* e coloca no array dos nomes
-*
-* Converte cada tabela em um workbook excel e guarda na variavel dados
-* Pega os dados e coloca no objeto Sheets do arquivo
-*
-* Cria uma variavel blob com o arquivo passando pelo pre-processo - linha 50
-*
-* Salva o arquivo usando a biblioteca FileSaver
-*/
+//Gera o arquivo excel
 function gerarExcel(tabelas) {
-  var arquivo = {
-    SheetNames: [],
-    Sheets: {}
+  var wb = editarCelulas();
+  let sheetName = getNomePlanilhas();
+  let arquivo = {
+    SheetNames: sheetName,
+    Sheets: { [sheetName]: wb }
   }
 
-  arquivo.SheetNames = getNomePlanilhas();
-  tabelas.each(function(i) {
-    var dados = XLSX.utils.table_to_book($(this)[0]);
-    arquivo.Sheets[arquivo.SheetNames[i]] = dados['Sheets']['Sheet1'];
-  });
-
-  var blob = new Blob(
-    [preProcesso(XLSX.write(arquivo, {bookType: 'xlsx', type: 'binary'}))],
-    { type: "application/octet-stream" }
+  loading = abrirLoading(
+    'Escrevendo arquivo<br/>  <small class="text-muted text-center">Pode demorar um pouco!</small>',
+    'sm',
+    'primary'
   );
-  saveAs(blob, document.title + '.xlsx');
+
+  let worker = set_worker_save();
+  worker.postMessage({
+    'arquivo': arquivo,
+    'url': document.location.toString().substring(0, document.location.toString().lastIndexOf('/'))
+  });
+}
+
+//Seta os handlers do worker
+function set_worker_save(){
+  let blob = new Blob(['('+ worker_function_save.toString() +')()'], {type: 'text/javascript'});
+  let worker = new Worker(window.URL.createObjectURL(blob));
+
+  worker.onmessage = function(e){
+    var blob = new Blob([preProcesso(e.data)], { type: "application/octet-stream" });
+    loading.modal('hide');
+
+    saveAs(blob, document.title + '.xlsm');
+  }
+  return worker;
 }
 
 //Pré-processa o arquivo antes de criar -- Não sei o que faz
@@ -55,4 +57,52 @@ function preProcesso(s) {
   var view = new Uint8Array(buf);
   for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
   return buf;
+}
+
+//O corpo tem como key o numero de linhas, para cada editado eu pego o endereço via id da linha
+function editarCelulas() {
+  let corpo = getCorpo();
+  let wb = getXls();
+  let editados = getEditados();
+  let addr;
+  if(editados.length){
+  	for(k in corpo){
+  	  for(e of editados){
+    		if(e.id == corpo[k][0]) wb = mudaOuApaga(e, wb, k);
+    	}
+  	}
+  }
+  limparEditados();
+
+  return wb;
+}
+
+function pegaColuna(s){
+  switch (s) {
+    case 0:
+      return 'B';
+    case 1:
+      return 'C';
+    case 2:
+      return 'D';
+    case 3:
+      return 'E';
+    case 4:
+      return 'J';
+    case 5:
+      return 'K';
+    default:
+      console.error(`Coluna incorreta: ${s}`);
+  }
+}
+
+function mudaOuApaga(e, wb, k){
+  let addr;
+  if(e.del)
+    wb = apagarLinha(wb.Sheets["DADOS - PENDANT_KANBAN_PPS"], k);
+  else{
+    addr = pegaColuna(e.col) + k;
+    wb.Sheets["DADOS - PENDANT_KANBAN_PPS"][addr] = e.data;
+  }
+  return wb;
 }

@@ -1,0 +1,41 @@
+@media print{
+  #table-piso{
+    height: 12cm!important;
+    width: 33cm!important;
+  }
+
+  #table-aramado{
+  }
+
+  #table-pendant{
+  }
+
+  .meuSmal{
+    font-weight: normal;
+    font-size: 8pt;
+    position: absolute;
+    left: 10px;
+    margin-top: -10px;
+  }
+
+  table{
+    margin-bottom: 4rem!important;
+    border: 2px solid #000!important;
+  }
+
+  tr, td{
+    border: 1px solid #000!important;
+  }
+
+  pre, span{
+    border: none;
+  }
+
+  .verticalText{
+    writing-mode: vertical-rl;
+  }
+
+  .bold{
+    font-weight: bold;
+  }
+}
