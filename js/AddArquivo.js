@@ -70,11 +70,10 @@ function pegarDados(res) {
   for(k in res){
     if (k.match("^(B|C|D|E|J|K)16$"))
       header.push(res[k]);
-    //else if(k.match("^(B|C|D|E|J|K)(1[7-9]|[2-9][0-9]|[1-9][0-9][0-9])$")){
-    else if(k.match("^(B|C|D|E|J|K)(1[7-9]|2[0-5])$")){
+    else if(k.match("^(B|C|D|E|J|K)(1[7-9]|[2-9][0-9]|[1-9][0-9][0-9])$")){
       corpo[k.substring(k.search('[1-9]'))] ?
-      corpo[k.substring(k.search('[1-9]'))].push(res[k].v !== undefined ? res[k].v : "--") :
-      corpo[k.substring(k.search('[1-9]'))] = [res[k].v !== undefined ? res[k].v : "--"];
+      corpo[k.substring(k.search('[1-9]'))].push(validaOsDados(res[k].v)) :
+      corpo[k.substring(k.search('[1-9]'))] = [validaOsDados(res[k].v)];
     }
   }
   var id = gerarTabela(header);

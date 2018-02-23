@@ -58,7 +58,7 @@ function abrirLoading(msg, tamanho, tipo, callback){
       </div>
     </div>
   `);
-  loading.modal();
+  loading.modal({backdrop: 'static', keyboard: false});
 
   return loading;
 }
@@ -176,4 +176,26 @@ function formataHoras(hora, minuto){
   }
 
   return hora + ':' + minuto;
+}
+
+function validaOsDados(value){
+  if(!typeof value === null && !typeof value === undefined)
+    return value;
+
+  try{
+    if(!value.toString().match(/^[\s]$/))
+      return value;
+  }
+  catch(e){
+    console.log(value+'->'+value);
+  }
+
+  return '--';
+}
+
+function alert(e){
+  if(!console.group)
+    console.groupCollapsed('Alertas customizados.');
+
+  console.log("Alerta: "+e);
 }

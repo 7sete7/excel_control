@@ -47,7 +47,8 @@ function tabelar() {
   var id = '#tabela1';
   if (!$.fn.dataTable.isDataTable($(id))) {
     tabela = $(id).DataTable({
-      dom: 'frtip'
+      dom: 'frtip',
+      'pageLength': 30
     });
     dataTabelas[id] = tabela;
     botao();

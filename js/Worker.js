@@ -6,3 +6,11 @@ function worker_function(){
     postMessage(todoXls);
   }
 }
+
+function worker_function_save(){
+  onmessage = function(e){
+    importScripts(e.data.url + "/js/Terceiros/xlsx.full.min.js");
+    let blob = XLSX.write(e.data.arquivo, {bookType: 'xlsx', type: 'binary'});
+    postMessage(blob);
+  }
+}

@@ -9,7 +9,7 @@ $(document).ready(function() {
 
 //Adciona o input no local do clique
 function clicar(e) {
-  if(!checaPorModal() || !checaPorTd(e)) {$(document).one('dblclick', 'td', clicar);return;}
+  if(checaPorModal() || checaPorTd(e) || checaPorThead(e)) {$(document).one('dblclick', 'td', clicar);return;}
   var td = $(e.target);
   var texto = td.text();
   td.html(`<input type="${$.isNumeric(texto) ? "number" : "text"}" id="inputEdit"/>`);
@@ -78,18 +78,19 @@ function adcionarEditados(del, row, col, data, id){
   editados.push({'id': id, 'row': row, 'col': col, 'del': del, 'data': data});
 }
 
-//Retorna falso se houver qualquer modal aberta, com exceção da procurar.
+//Retorna true se houver qualquer modal aberta, com exceção da procurar.
 function checaPorModal(){
-  if($('body').hasClass('modal-open') && !$('#searchModal').hasClass('in'))
-    return false;
-  return true;
+  return $('body').hasClass('modal-open') && !$('#searchModal').hasClass('in');
 }
 
-//Retorna falso se o td clicado é da 1º coluna.
+//Retorna true se o td clicado é da 1º coluna.
 function checaPorTd(e) {
-  if($(e.target).parent().children()[0] == e.target)
-    return false;
-  return true;
+  return $(e.target).parent().children()[0] == e.target
+}
+
+//Retorna true se o td clicado tá no thead
+function checaPorThead(e){
+  return $(e.target).parent().parent()[0] == $(e.target).parent().parent().parent().children('thead')[0];
 }
 
 function getEditados(){

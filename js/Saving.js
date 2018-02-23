@@ -1,3 +1,5 @@
+let loading;
+
 $(document).ready(function() {
   $('#salvar').on('click', salvar);
 });
@@ -19,12 +21,34 @@ function gerarExcel(tabelas) {
   let sheetName = getNomePlanilhas();
   let arquivo = {
     SheetNames: sheetName,
-    Sheets: { sheetName: wb }
+    Sheets: { [sheetName]: wb }
   }
-  var blob = new Blob(
-  [preProcesso(XLSX.write(wb, {bookType: 'xlsx', type: 'binary'}))],
-  { type: "application/octet-stream" });
-  saveAs(blob, document.title + '.xlsm');
+
+  loading = abrirLoading(
+    'Escrevendo arquivo<br/>  <small class="text-muted text-center">Pode demorar um pouco!</small>',
+    'sm',
+    'primary'
+  );
+
+  let worker = set_worker_save();
+  worker.postMessage({
+    'arquivo': arquivo,
+    'url': document.location.toString().substring(0, document.location.toString().lastIndexOf('/'))
+  });
+}
+
+//Seta os handlers do worker
+function set_worker_save(){
+  let blob = new Blob(['('+ worker_function_save.toString() +')()'], {type: 'text/javascript'});
+  let worker = new Worker(window.URL.createObjectURL(blob));
+
+  worker.onmessage = function(e){
+    var blob = new Blob([preProcesso(e.data)], { type: "application/octet-stream" });
+    loading.modal('hide');
+
+    saveAs(blob, document.title + '.xlsm');
+  }
+  return worker;
 }
 
 //Pré-processa o arquivo antes de criar -- Não sei o que faz
